@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FARME | Custom</title>
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/style-custom.css" />
+    <link rel="stylesheet" href="js/scrollCue.css" />
+
+    <!-- jQuery読み込み -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!--JQueryPlugin-->
+    <script src="js/jquery.bgswitcher.js"></script>
+    <script src="js/parallax.min.js"></script>
+    <script src="js/scrollCue.min.js"></script>
+    <script src="js/vendors/scrolloverflow.min.js"></script>
+    <script src="js/vendors/easings.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inview/1.0.0/jquery.inview.min.js"></script>
+    <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
+
+    <!--m+-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="http://mplus-fonts.sourceforge.jp/webfonts/basic_latin/mplus_webfonts.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="http://mplus-fonts.sourceforge.jp/webfonts/general-j/mplus_webfonts.css"
+    />
+
+    <!--Poiret One-->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poiret+One&display=swap" rel="stylesheet" />
+
+    <!--slide-->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js"></script>
+
+    <!--chara-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!--横スクロール-->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+    <script src="js/infiniteslide.js"></script>
+    <script src="js/jquery.pause.min.js"></script>
+
+    <!-- 3D, ar.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+
+    <script type="module" src="3D/model.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/3.3.2/three.js/build/ar.js"></script>
+  </head>
+
+  <body>
+    <div class="custom-top">
+      <img src="images/logo.png" alt="logo" class="logo" />
+
+      <div class="main_txt">
+        <h1>START<br /><br />YOUR CREATION</h1>
+        <p>想いの形を、あなたの傍に。</p>
+        <br />
+        <h2>心の中のイメージを膨らませてください</h2>
+        <p>あなただけの額縁を作っていきましょう。</p>
+      </div>
+    </div>
+    <!--top-->
+
+    <div class="wrap">
+      <nav class="nav">
+        <div id="steps">
+          <ul>
+            <li><a href="#step1">Step 1</a></li>
+            <li><a href="#step2">Step 2</a></li>
+            <li><a href="#step2">Step 3</a></li>
+            <li><a href="#step3">Step 4</a></li>
+          </ul>
+        </div>
+      </nav>
+
+      <main class="main">
+        <div class="wrapper">
+          <div class="section1" id="step1">
+            <h1 class="subcopy1">Choose your style</h1>
+            <h2 class="menuttl">01</h2>
+            <ul class="gal">
+              <li>
+                <a href="#step2" class="modelicon" id="0"><img src="images/model1.png" alt="写真1" /></a>
+              </li>
+              <li>
+                <a href="#step2" class="modelicon" id="1"><img src="images/model3.png" alt="写真1" /></a>
+              </li>
+              <li>
+                <a href="#step2" id="nextstep1"><img src="images/model2.png" alt="写真1" /></a>
+              </li>
+              <li>
+                <a href="#step2" id="nextstep1"><img src="images/model4.jpg" alt="写真1" /></a>
+              </li>
+              <li>
+                <a href="#step2" id="nextstep1"><img src="images/model6.png" alt="写真1" /></a>
+              </li>
+              <li>
+                <a href="#step2" id="nextstep1"><img src="images/model5.png" alt="写真1" /></a>
+              </li>
+            </ul>
+            <ul class="menu1" data-cues="slideInUp" data-group="images">
+              <li>
+                <p class="cap1">まずは好きな枠の形を選んでね。</p>
+                <img src="images/mascot.png" alt="live2d" />
+              </li>
+            </ul>
+          </div>
+
+          <div class="slide-container">
+            <div class="left-slide">
+              <div>
+                <canvas id="c" style="width: 500px; height: 500px"></canvas>
+                <label for="image-preview">画像でプレビュー</label>
+
+                <input type="checkbox" name="画像でプレビュー" id="image-preview" value="true" checked />
+              </div>
+            </div>
+            <div>
+              <input type="button" class="action-buttons" id="back-button" value="Back" />
+              <input type="button" class="action-buttons" id="next-button" value="Next" />
+            </div>
+
+            <div class="right-slide">
+              <div id="step2">
+                <h1 class="subcopy">Choose your size</h1>
+                <div class="options">
+                  サイズ:<select name="size" id="size-selector">
+                    <option value="sm" selected>小</option>
+                    <option value="md">中</option>
+                    <option value="lg">大</option></select
+                  ><br />
+                  <br />
+                  方向: <img src="images/icon3.png" id="tate" />
+                  <img src="images/icon4.png" id="yoko" />
+                  <div id="moyou-area"></div>
+                  <br />
+                </div>
+              </div>
+              <div id="step3">
+                <h1 class="subcopy">Choose your color</h1>
+                <div id="color-area" class="options"></div>
+                <!-- <div class="options">
+                  1) 枠<br />
+                  色：<input type="color" id="waku" value="#9a760f" /><br />
+                  デフォルト：<select name="defaultcolor" id="model-no">
+                    <option value="1">Red</option>
+                    <option value="2">Blue</option>
+                    <option value="3">Green</option></select
+                  ><br />
+                  <br />
+                  2) 裏<br />
+                  色：<input type="color" id="ura" value="#d2a77e" /><br />
+                  デフォルト：<select name="defaultcolor" id="model-no">
+                    <option value="1">Red</option>
+                    <option value="2">Blue</option>
+                    <option value="3">Green</option></select
+                  ><br />
+                  <br />
+                  写真アップロード：
+                </div> -->
+              </div>
+              <div id="step4">
+                <h1 class="subcopy">Preview your frame</h1>
+                <div class="options">
+                  <div id="qr"></div>
+                  <div data-url="https://kumatech-lab.com"></div>
+                  <br />
+                  <button id="arBtn">ARで見る</button><br />
+                  <button id="resetBtn">やり直し</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--wrapper-->
+      </main>
+    </div>
+    <!--wrap-->
+
+    <!--footer-->
+    <footer>
+      <a href="index.html"><img src="images/logo.png" alt="ロゴ" id="footer_logo" /></a>
+      <p class="copyright">Copyright &copy; 2021 FRAME All Rights Reserved.</p>
+    </footer>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/chara.js"></script>
+    <script src="js/custom.js"></script>
+
+    <!-- 3D script -->
+    <script src="3D/three.min.js"></script>
+    <script type="module" src="3D/GLTFLoader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+    <script src="js/qrcode.js"></script>
+
+    <script type="module" src="3D/model.js"></script>
+  </body>
+</html>
