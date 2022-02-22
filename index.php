@@ -81,11 +81,9 @@ $_SESSION = [];
 			<?php endif; ?>
             <?php
 
-        echo strlen($message);
-        $alert = "<script type='text/javascript'>alert(' {$message} ');</script>";
-        echo $alert;
 
-        if($message){
+        $alert = "<script type='text/javascript'>alert(' {$message} ');</script>";
+        if(strlen($message) > 0){
             echo $alert;
         }
         
