@@ -1,5 +1,5 @@
 <?php
-error_reporting(0);
+// error_reporting(0);
 require('dbconnect.php');
 session_start();
 if (!empty($_POST)) {
