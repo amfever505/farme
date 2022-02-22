@@ -81,7 +81,7 @@ $_SESSION = [];
 			<?php endif; ?>
             <?php
 
-        // echo count($message);
+        echo mb_strlen($message);
         $alert = "<script type='text/javascript'>alert(' {$message} ');</script>";
         echo $alert;
 
