@@ -80,10 +80,15 @@ $_SESSION = [];
 				<p class="error">* 指定されたメールアドレスはすでに登録されています</p>
 			<?php endif; ?>
             <?php
-        echo $message;
+
         print_r($message);
-        $alert = "<script type='text/javascript'>alert('これはalertです。');</script>";
+        $alert = "<script type='text/javascript'>alert(' {$message} ');</script>";
         echo $alert;
+
+        if($message){
+            echo $alert;
+        }
+        
     ?>
 
 
