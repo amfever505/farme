@@ -4,7 +4,7 @@ $server = $url["host"];
 $username = $url["user"];
 $password = $url["pass"];
 $database = substr($url["path"], 1);
-echo $url;
+// echo $url;
 
 try {
     // $db = new PDO('mysql:dbname=mini_bbs;host=127.0.0.1;charset=utf8','root', '');
