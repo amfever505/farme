@@ -81,6 +81,9 @@ $_SESSION = [];
 			<?php endif; ?>
             <?php
         echo $message;
+        print_r($message);
+        $alert = "<script type='text/javascript'>alert('これはalertです。');</script>";
+        echo $alert;
     ?>
 
 
