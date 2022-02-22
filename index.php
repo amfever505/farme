@@ -84,7 +84,7 @@ $_SESSION = [];
 
         $alert = "<script type='text/javascript'>alert(' {$message} ');</script>";
         if( strlen($message) > 0){
-            // echo $alert;
+            echo $alert;
         }
         
     ?>
