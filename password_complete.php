@@ -1,9 +1,21 @@
 <?php
-    $dsn = 'mysql:host=localhost;dbname=mini_bbs;charset=utf8mb4';
-    $db_user = 'root';
-    $db_pass = '';
+    // $dsn = 'mysql:host=localhost;dbname=mini_bbs;charset=utf8mb4';
+    // $db_user = 'root';
+    // $db_pass = '';
+$url = parse_url($_SERVER['CLEARDB_DATABASE_URL']);
+$server = $url["host"];
+$username = $url["user"];
+$password = $url["pass"];
+$database = substr($url["path"], 1);
+echo $url;
+
 try {
-    $pdo = new PDO($dsn,$db_user, $db_pass);
+    // $pdo = new PDO($dsn,$db_user, $db_pass);
+    $pdo = new PDO(
+        'mysql:host=' . $server . ';dbname=' . $database . ';charset=utf8mb4',
+        $username,
+        $password,
+    );
     $pdo->setAttribute(
 		PDO::ATTR_ERRMODE,
 		PDO::ERRMODE_EXCEPTION);
