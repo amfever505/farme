@@ -1,195 +1,25 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width,initial-scale=1,user-scalable=no,minimum-scale=1,maximum-scale=1"
-    />
-    <!-- <link rel="stylesheet" href="./style.css" /> -->
-    <title>ARで額縁を見ましょう</title>
-  </head>
+<head>
+<meta charset="UTF-8" />
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1,user-scalable=no,minimum-scale=1,maximum-scale=1"
+/>
 
-  <body>
-    <p id="load">loading</p>
-    <canvas id="c" style="width: 100%; height: 100vh"></canvas>
+<title>ARで額縁を見ましょう</title>
+</head>
+<body>
+<p id="load">loading</p>
+<canvas id="c" style="width: 100%; height: 100vh"></canvas>
 
-    <!-- three.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.js"></script>
-    <!-- glb ローダー -->
-    <script src="https://cdn.rawgit.com/mrdoob/three.js/r122/examples/js/loaders/GLTFLoader.js"></script>
-    <!-- ar.js -->
-    <script src="https://raw.githack.com/AR-js-org/AR.js/3.1.0/three.js/build/ar.js"></script>
-    <!-- <script src="./3D/modelData.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.js"></script>
 
-    <script type="module">
-      // パラメーターを取得
-      import * as modelData from './3D/modelData.js';
+<script src="https://cdn.rawgit.com/mrdoob/three.js/r122/examples/js/loaders/GLTFLoader.js"></script>
 
-      var url = new URL(window.location.href);
-      var params = url.searchParams;
-      console.log(params);
+<script src="https://raw.githack.com/AR-js-org/AR.js/3.1.0/three.js/build/ar.js"></script>
 
-      // 初期化
-      let MDL = modelData.products[0];
-
-      (() => {
-        onload = () => {
-          // tick = 0;
-
-          const load = document.getElementById('load');
-
-          const resize = () => {
-            source.onResizeElement();
-            source.copyElementSizeTo(renderer.domElement);
-            if (context.arController !== null) source.copyElementSizeTo(context.arController.canvas);
-          };
-          const canvas = document.querySelector('#c');
-
-          const scene = new THREE.Scene();
-          const renderer = new THREE.WebGLRenderer({
-            canvas,
-            antialias: true,
-            alpha: true,
-          });
-          renderer.setClearColor(new THREE.Color('black'), 0);
-          const width = window.innerWidth;
-          const height = window.innerHeight;
-          console.log(window.innerWidth, window.innerHeight);
-          renderer.setSize(width, height);
-
-          // renderer.domElement.style = 'position: absolute; left: 0; top: 0;';
-          // document.body.appendChild(renderer.domElement);
-
-          const camera = new THREE.Camera();
-          scene.add(camera);
-          // light
-          const light = new THREE.AmbientLight(0xffffff, 1);
-          scene.add(light);
-          renderer.outputEncoding = THREE.GammaEncoding;
-
-          const pointLight = new THREE.PointLight(0xb8e0ef, 4, 40);
-          pointLight.position.set(0.2, 0.7, 2);
-          scene.add(pointLight);
-
-          const source = new THREEx.ArToolkitSource({ sourceType: 'webcam' });
-          source.init(() => resize());
-
-          const context = new THREEx.ArToolkitContext({
-            detectionMode: 'mono',
-            imageSmoothingEnabled: true,
-            cameraParametersUrl: '3D/data/camera_para.dat',
-            canvasHeight: source.parameters.sourceHeight,
-            canvasWidth: source.parameters.sourceWidth,
-            maxDetectionRate: 60,
-          });
-
-          context.init(() => camera.projectionMatrix.copy(context.getProjectionMatrix()));
-          window.addEventListener('resize', () => resize());
-          // マーカー
-          const marker = new THREE.Group();
-          const controls = new THREEx.ArMarkerControls(context, marker, {
-            type: 'pattern',
-            // preset: "custom",
-            patternUrl: '3D/data/patt.hiro',
-          });
-          scene.add(marker);
-
-          // load  object
-
-          let url = new URL(window.location.href);
-          let params = url.searchParams;
-          let resultData = [];
-          let obj = new Object();
-
-          for (const [key, value] of params) {
-            obj[key] = value;
-          }
-          resultData.push(obj);
-
-          console.log(resultData);
-          console.log(Object.keys(resultData[0]));
-          let modelPath;
-          // let modelParams = [
-          //   { name: 'frame', color: '0x' + params.get('Waku') },
-          //   { name: 'ura', color: '0x' + params.get('Ura') },
-          //   { name: 'canvas', color: null },
-          // ];
-          //   モデルデータ読み込み・切り替え
-
-          let MDL = modelData.products[params.get('id')];
-          modelPath = '3D/model/' + MDL.name + '_' + MDL.sm + '.glb';
-          console.log(MDL, modelPath);
-
-          let loader = new THREE.GLTFLoader();
-          loader.load(modelPath, (data) => {
-            let size = 0.1;
-            let object = data.scene;
-
-            // カラー　配列
-            let colorArray = Object.values(resultData[0]).splice(4);
-
-            MDL.object.forEach((obj, index) => {
-              obj.value.forEach((name) => {
-                object.getObjectByName(name).material.color.setHex(colorArray[index]);
-                console.log(name, colorArray[index]);
-              });
-            });
-
-            //外枠からカラーカスタマイズの箇所全部拾う
-
-            // object
-            //   .getObjectByName(modelData[1][1])
-            //   .material.color.setHex(modelData[1][2]);
-            // let customizeObj = params.get('id');
-            //パラメーターから変更の名前取得
-            // let customizeColor = modelParams[0].color;
-            //パラメーターからカスタマイズカラー取得
-
-            // object.getObjectByName(w).material.color.setHex(c);
-
-            // 模様切り替え
-            let moyouSwitch = params.get(Object.keys(resultData[0])[3]).split(',');
-            moyouSwitch.forEach((x, index) => {
-              if (x == 'false') {
-                // falseの方だけを非表示にする
-                object.getObjectByName(MDL.moyou[index].value).material.visible = false;
-              }
-            });
-
-            object.scale.set(size, size, size);
-            object.position.set(0, 0, -0.2);
-            object.rotation.set(-(Math.PI / 2), 0, 0);
-            marker.add(object);
-            // const box = new THREE.Box3().setFromObject(object);
-            // const modelW = box.max.x - box.min.x;
-            // const modelH = box.max.y - box.min.y;
-            // const modelD = box.max.z - box.min.z;
-            // console.log(modelW, modelH, modelD);
-          });
-
-          // videoTexture モデルロードした後、コードを消す
-          // const videoTexture = new THREE.VideoTexture(source.domElement);
-          // videoTexture.minFilter = THREE.NearestFilter;
-
-          // const cloak = new THREEx.ArMarkerCloak(videoTexture);
-          // cloak.object3d.material.uniforms.opacity.value = 1.0;
-          // marker.add(cloak.object3d);
-
-          // スタート
-          const main = () => {
-            requestAnimationFrame(main);
-
-            load.style.display = source.ready ? 'none' : 'block';
-            if (source.ready === false) return;
-
-            context.update(source.domElement);
-            renderer.render(scene, camera);
-          };
-
-          main();
-        };
-      })();
-    </script>
-  </body>
+<script type="module">
+import * as modelData from './3D/modelData.js'; var url= new URL(window.location.href); var params= url.searchParams; console.log(params); let MDL= modelData.products[0]; (()=> { onload= ()=> { const load= document.getElementById('load'); const resize= ()=> { source.onResizeElement(); source.copyElementSizeTo(renderer.domElement); if (context.arController !== null) source.copyElementSizeTo(context.arController.canvas);}; const canvas= document.querySelector('#c'); const scene= new THREE.Scene(); const renderer= new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, }); renderer.setClearColor(new THREE.Color('black'), 0); const width= window.innerWidth; const height= window.innerHeight; renderer.setSize(width, height); const camera= new THREE.Camera(); scene.add(camera); const light= new THREE.AmbientLight(0xcccccc, 0.5); const spotlight= new THREE.SpotLight(0xffffff, 1, 200, 1, 1, 2); spotlight.position.set(0, 0, 60); scene.add(light); renderer.outputEncoding= THREE.GammaEncoding; const pointLight= new THREE.PointLight(0xb8e0ef, 4, 40); pointLight.position.set(0.2, 0.7, 2); scene.add(pointLight); const source= new THREEx.ArToolkitSource({ sourceType: 'webcam' }); source.init(()=> resize()); const context= new THREEx.ArToolkitContext({ detectionMode: 'mono', imageSmoothingEnabled: true, cameraParametersUrl: '3D/data/camera_para.dat', canvasHeight: source.parameters.sourceHeight, canvasWidth: source.parameters.sourceWidth, maxDetectionRate: 60, }); context.init(()=> camera.projectionMatrix.copy(context.getProjectionMatrix())); window.addEventListener('resize', ()=> resize()); const marker= new THREE.Group(); const controls= new THREEx.ArMarkerControls(context, marker, { type: 'pattern', patternUrl: '3D/data/patt.hiro', }); scene.add(marker); let url= new URL(window.location.href); let params= url.searchParams; let resultData= []; let obj= new Object(); for (const [key, value] of params) { obj[key]= value;} resultData.push(obj); console.log(resultData); console.log(Object.keys(resultData[0])); let modelPath; let MDL= modelData.products[params.get('id')]; modelPath= '3D/model/' + MDL.name + '_s.glb'; console.log(MDL, modelPath); let loader= new THREE.GLTFLoader(); loader.load(modelPath, (data)=> { let size= 0.1; let object= data.scene; let colorArray= Object.values(resultData[0]).splice(4); MDL.object.forEach((obj, index)=> { obj.value.forEach((name)=> { object.getObjectByName(name).material.color.setHex(colorArray[index]); console.log(name, colorArray[index]);});}); let moyouSwitch= params.get(Object.keys(resultData[0])[3]).split(','); moyouSwitch.forEach((x, index)=> { if (x== 'false') { object.getObjectByName(MDL.moyou[index].value).material.visible= false;}}); if (params.get('size')== 'sm') { size *= 1;} else if (params.get('size')== 'md') { size *= 1.5;} else { size *= 2;} object.scale.set(size, size, size); object.position.set(0, 0, -0.2); object.rotation.set(-(Math.PI / 2), 0, 0); if (params.get('dir')== 'tate') { object.rotation.set(-(Math.PI / 2), 0, Math.PI / 2);} marker.add(object);}); const main= ()=> { requestAnimationFrame(main); load.style.display= source.ready ? 'none' : 'block'; if (source.ready=== false) return; context.update(source.domElement); renderer.render(scene, camera);}; main();};})(); </script>
+</body>
 </html>

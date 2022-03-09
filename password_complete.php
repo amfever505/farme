@@ -1,27 +1,11 @@
 <?php
-    // $dsn = 'mysql:host=localhost;dbname=mini_bbs;charset=utf8mb4';
-    // $db_user = 'root';
-    // $db_pass = '';
-$url = parse_url($_SERVER['CLEARDB_DATABASE_URL']);
-$server = $url["host"];
-$username = $url["user"];
-$password = $url["pass"];
-$database = substr($url["path"], 1);
-echo $url;
-
-try {
-    // $pdo = new PDO($dsn,$db_user, $db_pass);
-    $pdo = new PDO(
-        'mysql:host=' . $server . ';dbname=' . $database . ';charset=utf8mb4',
-        $username,
-        $password,
-    );
-    $pdo->setAttribute(
-		PDO::ATTR_ERRMODE,
-		PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-echo 'DB接続エラー： ' . $e->getMessage();
-}
+error_reporting(0);
+ session_start();
+ require('dbconnect.php');
+if (!isset($_POST['address'])) {
+    header('Location: password.php');
+    exit();
+    }
                 // SQL文をセット
                 $address = $_POST['address'];
                 $pass = hash('sha256',$_POST['pass']);
@@ -91,9 +75,9 @@ echo 'DB接続エラー： ' . $e->getMessage();
                     <p>Your Password is changed!</p>
                     <br>
                     <br>
-                    <input type="button" class="completebtn" href="http://localhost/farme_dev/index.php" value="トップページ"><br>
+                    <a  href="index.php"><input type="button" class="completebtn" value="トップページ"></a><br>
                     <br>
-                    <input type="button" class="completebtn" href="http://localhost/farme_dev/mypage.php" value="マイページ">
+                    <a  href="mypage.php"><input type="button" class="completebtn" value="マイページ"></a>
                 </div>
             </div>
         </div>
@@ -142,7 +126,7 @@ echo 'DB接続エラー： ' . $e->getMessage();
     <div id="chara"></div>
 
     <div id="popup_area">
-        <a href="mypage.html">
+        <a href="mypage.php">
             <h2>My page</h2>
             <p>マイページ</p>
         </a>
@@ -161,7 +145,7 @@ echo 'DB接続エラー： ' . $e->getMessage();
 
     <div id="popup_area2">
         <div id="popup_area2_box1">
-            <a href="mypage.html">
+            <a href="mypage.php">
                 <h2>My page</h2>
                 <p>マイページ</p>
             </a>
@@ -186,7 +170,7 @@ echo 'DB接続エラー： ' . $e->getMessage();
 
     <div id="popup_area3">
         <div id="popup_area2_box1">
-            <a href="mypage.html">
+            <a href="mypage.php">
                 <h2>My page</h2>
                 <p>マイページ</p>
             </a>
@@ -203,20 +187,26 @@ echo 'DB接続エラー： ' . $e->getMessage();
             <h1>Content Us</h1>
             <h2>お問い合わせ</h2>
             <div id="popup_area2_box2_1">
-                <form action="">
-                    <p>カテゴリ</p>
-                    <select name="example1">
-                        <option value="サンプル1">選択肢のサンプル1</option>
-                        <option value="サンプル2">選択肢のサンプル2</option>
-                        <option value="サンプル3">選択肢のサンプル3</option>
-                        <option value="サンプル4">選択肢のサンプル4</option>
-                        <option value="サンプル5">選択肢のサンプル5</option>
-                    </select>
-                    <p>タイトル</p>
-                    <input type="text">
-                    <p>お問い合わせ内容</p>
-                    <textarea name="" id="" cols="30" rows="10" value="aa"></textarea><br>
-                    <input type="submit">
+            <form action="contact.php" method="POST">
+                    <div id="popup_category">
+                        <p>カテゴリ</p>
+                        <select name="subject" id="subject" class="popup_select">
+                            <option value="サンプル1">選択肢のサンプル1</option>
+                            <option value="サンプル2">選択肢のサンプル2</option>
+                            <option value="サンプル3">選択肢のサンプル3</option>
+                            <option value="サンプル4">選択肢のサンプル4</option>
+                            <option value="サンプル5">選択肢のサンプル5</option>
+                        </select>
+                    </div>
+                    <div id="popup_title">
+                        <p>タイトル</p>
+                        <input type="text"  name="text" id="text"value="<?php echo htmlspecialchars($_POST['text'],ENT_QUOTES); ?>">
+                    </div>
+                    <div id="popup_textarea">
+                        <p>お問い合わせ内容</p>
+                        <textarea name="body" id="body" cols="30" rows="10" value="<?php echo htmlspecialchars($_POST['body'],ENT_QUOTES); ?>"></textarea><br>
+                    </div>
+                    <input type="submit" class="popup_submit">
                 </form>
             </div>
         </div>

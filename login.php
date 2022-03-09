@@ -2,6 +2,10 @@
 error_reporting(0);
 require('dbconnect.php');
 session_start();
+if (!isset($_POST['email'])) {
+	header('Location: index.php');
+	exit();
+	}
 if (!empty($_POST)) {
 	// ログインの処理
 	if ($_POST['email'] != '' && $_POST['password'] != '') {
@@ -26,8 +30,8 @@ if (!empty($_POST)) {
 				$url = "mypage.php";
 				header("Location: {$url}"); exit();
 			} else {
-				$_SESSION['message'] = 'ログインに失敗しました';
-				$id = 'ctn2';
+				$alert = "<script type='text/javascript'>alert('ログインに失敗しました、もう一度お試しください。');</script>";
+				$_SESSION['message'] = $alert ;
 				header('Location: index.php'); exit();
 			}
 		}
